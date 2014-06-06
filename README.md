@@ -4,13 +4,13 @@ Dart provides good integration between Javascript and Dart if your goal is to or
 
 ## Getting Started
 
-There is not much documentation yet, but it is very simple to use. Your best bet is to use the tests as an example. Start by looking at test/js_bridge_test.dart.
+There is not much documentation yet, but it is fairly simple to use. Your best bet is to use the tests as an example. Start by looking at test/js_bridge_test.dart.
 
 ## Performance
 
-There is a performance test included with the js_bridge unit tests. It measures the time required to complete a single function call with a single integer argument and a single integer return value. The call performance is measured both from Dart to Javascript, and from Javascript to Dart. This test measures the performance _without_ the overhead of the js_bridge layer. A single function in either direction is about 2 µs. Consider this a baseline performance expectation.
+There is a performance test included with the js_bridge unit tests. It measures the time required to complete a single function call with a single integer argument and a single integer return value. The call performance is measured both from Dart to Javascript, and from Javascript to Dart. A single function call in either direction is about 2 µs. Consider this a baseline performance expectation.
 
-Below are the performance test results running on an 2.8 GHz i5 with OSX 10.9.3, Dart 1.4.2, and Chrome 35.0.1916.114.
+Below are the performance test results running on a 2.8 GHz i5 with OSX 10.9.3, Dart 1.4.2, and Chrome 35.0.1916.114.
 
 Dartium (Dart VM):
 
