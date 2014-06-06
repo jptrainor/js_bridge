@@ -2,6 +2,6 @@ name: js_bridge
 version: 0.9.0
 author: Jim Trainor
 description: Provides a simple means of registering dart functions that are accessible to javascript.
-dependencies:
+dev_dependencies:
   browser: any
   unittest: any

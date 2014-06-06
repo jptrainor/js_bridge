@@ -37,7 +37,7 @@ Future loadJs() {
   }
 
   loaded = true;
-  var scriptSrc = "../lib/js_bridge.js";
+  var scriptSrc = "packages/js_bridge/js_bridge.js";
   var scriptTest = "js_bridge_test.js";
   return insertJsScript(scriptSrc).then((_) => insertJsScript(scriptTest));
 }
