@@ -26,7 +26,7 @@ Chrome (dart2js):
 
 Yes. It is used in a real life project to put an ExtJS interface on top of a layer of Dart code that is responsible for all server communication, resource caching, etc. It works fine in this application.
 
-Jim Trainor
+Jim Trainor  
 6 June 2014
 
 
