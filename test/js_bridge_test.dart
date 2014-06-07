@@ -3,11 +3,11 @@
 
 library js_bridge_test;
 
-import '../lib/js_bridge.dart' as jsb;
-
 import 'dart:async';
 import 'dart:js' as js;
 import 'dart:html' as html;
+
+import 'package:js_bridge/js_bridge.dart' as jsb;
 
 import 'package:unittest/unittest.dart';
 import 'package:unittest/html_config.dart';
