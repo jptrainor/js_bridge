@@ -112,7 +112,7 @@ class JsBridge {
   void _register(name, Function handler) => _jsContext.callMethod('registerHandler', [name, handler]);
 
   /**
-   * Deregister then [name]ed handler.
+   * Deregister the a handler by [name].
    */
   void deregisterHandler(String name) {
     _jsContext.callMethod('deregisterHandler', [name]);

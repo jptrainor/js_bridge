@@ -4,7 +4,7 @@
 part of js_bridge;
 
 /**
- * Wraps a [js.JsFunction] received from a javascript call.
+ * Wraps a [js.JsFunction] received from as an argument to javascript call.
  *
  * Simple wrapper around a js.JsFunction that makes it easier to execute a
  * javascript callback (passed to a bridged function) from dart.
