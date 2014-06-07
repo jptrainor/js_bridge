@@ -4,7 +4,11 @@ Dart provides good integration between Javascript and Dart if your goal is to or
 
 ## Getting Started
 
-There is not much documentation yet, but it is fairly simple to use. Your best bet is to use the tests as an example. Start by looking at test/js_bridge_test.dart. Look in test/js_bridge_test.dart at the bridge_test() method and see how the dart functions are registered against a named context (think of that as a simple namespace with an error zone).  Next look at  test/js_bridge_test.js. Look at the jsBridgeTest() javascipt function to see how the registered dart functions are called from javascript.
+There is a simple example that shows how to get started.
+
+You need to create a JsBridge object in your dart code and use that bridge object to register functions that you want exposed to your Javascript code. On the Javascript side you need to include js_bridge.js and then call JS_BRIDGE.lookupNamespace(name) to get the bridge object that was created in the Dart code.
+
+Note that the execution of the Dart and Javascript initialization code are not synchronized in any way - you have to do that or else you may find that the bridged methods are not there yet when you call them from Javascript. The example shows a simple way to do that - just use dart:js to call an "onReady" function in your Javascript code to let it know that the dart code has been configured and the bridged functions are available.
 
 ## Performance
 
