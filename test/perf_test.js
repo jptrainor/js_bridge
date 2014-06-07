@@ -27,6 +27,6 @@ function JsBridgePerfTest(dartRecvFunc, count, completionCallback) {
     };
 
     JsBridgePerfTest.prototype.dart2Js = function (msg) {
-    	return msg;
+        return msg;
     };
 }());
