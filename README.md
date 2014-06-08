@@ -1,6 +1,6 @@
 # js_bridge
 
-Dart provides good integration between Javascript and Dart if your goal is to originate Javascript calls from the Dart side. If you want to the reverse - originate Dart function calls from the Javascript universe - then Dart's native Javascript integration is not quite as seamless. That's where js_bridge comes in. It provides a simple means of registering Dart functions that you want to make available to your Javascript code and it takes care of most of the tedious Javascript/Dart type mapping that is necessary to make the call appear as seamless as possible to the Javascript developer. 
+Dart provides good integration between Javascript and Dart if your goal is to originate Javascript calls from the Dart side. If you want to the reverse - originate Dart function calls from the Javascript universe - then Dart's native Javascript integration is not quite as seamless. That's where js_bridge comes in. It provides a simple means of registering Dart functions that you want to make available to your Javascript code and it takes care of most of the tedious Javascript/Dart type mapping that is necessary to make the call appear as seamless as possible to both the Dart and Javascript developer.
 
 ## Getting Started
 
