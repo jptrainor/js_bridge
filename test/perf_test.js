@@ -3,8 +3,6 @@
 
 /*jslint browser: true, stupid: true */
 
-/*global ReceivePortSync */
-
 function JsBridgePerfTest(dartRecvFunc, count, completionCallback) {
     "use strict";
     this.dartRecvFunc = dartRecvFunc;
