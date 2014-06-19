@@ -10,10 +10,8 @@ import 'dart:html' as html;
 import 'package:js_bridge/js_bridge.dart' as jsb;
 
 import 'package:unittest/unittest.dart';
-import 'package:unittest/html_config.dart';
 
 part 'js_data_mapping_test.dart';
-part 'perf_test.dart';
 
 Future insertJsScript(String src) {
   var script = new html.ScriptElement();
@@ -21,11 +19,9 @@ Future insertJsScript(String src) {
   script.src = src;
 
   var loadCompleter = new Completer();
-  script.onLoad.listen(
-      (html.Event event) {
-        loadCompleter.complete();
-      }
-   );
+  script.onLoad.listen((html.Event event) {
+    loadCompleter.complete();
+  });
 
   html.document.body.nodes.add(script);
 
@@ -34,15 +30,17 @@ Future insertJsScript(String src) {
 
 
 bool loaded = false;
-Future loadJs() {
-  if (loaded) {
-    return new Future.value();
-  }
+makeLoadJs(String scriptPath) {
+  return () {
+    if (loaded) {
+      return new Future.value();
+    }
 
-  loaded = true;
-  var scriptSrc = "packages/js_bridge/js_bridge.js";
-  var scriptTest = "js_bridge_test.js";
-  return insertJsScript(scriptSrc).then((_) => insertJsScript(scriptTest));
+    loaded = true;
+    var scriptSrc = "packages/js_bridge/js_bridge.js";
+    var scriptTest = "${scriptPath}/js_bridge_test.js";
+    return insertJsScript(scriptSrc).then((_) => insertJsScript(scriptTest));
+  };
 }
 
 class JsTestTarget {
@@ -109,7 +107,7 @@ class JsTestTarget {
       throw "testTarget4-async-error";
     }
 
-    new Timer(new Duration(seconds:1), handleTimeout);
+    new Timer(new Duration(seconds: 1), handleTimeout);
 
     return "testTarget4-result";
   }
@@ -151,7 +149,9 @@ bridge_test() {
 
   // execute the java script call which will call back with known arguments
   js.context.callMethod("jsBridgeTest");
-  var expectedArg1_1 = [1, "2", 3.3, ["a", "b"], {"c": "d"}];
+  var expectedArg1_1 = [1, "2", 3.3, ["a", "b"], {
+      "c": "d"
+    }];
   var expectedArg2_1 = [1, "2", 3.3, ["a", "b"]];
   var expectedArg2_2 = [1, "2", 3.3];
 
@@ -256,8 +256,8 @@ bridge_error_test() {
   return jsTestTarget.testTarget4AsyncError.then(verifyTarget4);
 }
 
-runTests() {
-  setUp(loadJs);
+setupTests([String testDirPath = "."]) {
+  setUp(makeLoadJs(testDirPath));
 
   test("js to dart mapping", jsDataMappingTest);
 
@@ -268,11 +268,4 @@ runTests() {
   test("javascript bridge callback", bridge_callback_test);
 
   test("javascript bridge zone error", bridge_error_test);
-
-  test("javascript to dart performance test", perfTest);
-}
-
-main() {
-  useHtmlConfiguration();
-  runTests();
 }
