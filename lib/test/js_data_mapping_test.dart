@@ -3,7 +3,7 @@
 
 part of js_bridge_test;
 
-js.JsFunction jsFunction = new js.JsFunction.withThis((jsThis,args){});
+js.JsFunction _jsFunction = new js.JsFunction.withThis((jsThis,args){});
 
 Map<String, Object> _mappingTestData =
 {
@@ -14,7 +14,7 @@ Map<String, Object> _mappingTestData =
  'e' : [1, 'b', {'c' : 'd'}],
 };
 
-jsDataMappingTest() {
+_jsDataMappingTest() {
 
   js.JsObject testJsDataAsJsObject = new js.JsObject.jsify(_mappingTestData);
 
@@ -25,10 +25,10 @@ jsDataMappingTest() {
   expect(_mappingTestData.toString(), equals(testJsDataRoundTrip.toString()));
 
   // verify callback function mapping
-  expect(jsb.js2dart(jsFunction), new isInstanceOf<jsb.JsCallback>());
+  expect(jsb.js2dart(_jsFunction), new isInstanceOf<jsb.JsCallback>());
 }
 
-dartDataMappingTest() {
+_dartDataMappingTest() {
   expect(jsb.dart2js(_mappingTestData) is js.JsObject, isTrue);
   expect(jsb.dart2js("string") is String, isTrue);
 

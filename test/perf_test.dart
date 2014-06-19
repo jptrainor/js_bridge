@@ -3,6 +3,21 @@
 
 part of js_bridge_test_main;
 
+Future insertJsScript(String src) {
+  var script = new html.ScriptElement();
+  script.type = "text/javascript";
+  script.src = src;
+
+  var loadCompleter = new Completer();
+  script.onLoad.listen((html.Event event) {
+    loadCompleter.complete();
+  });
+
+  html.document.body.nodes.add(script);
+
+  return loadCompleter.future;
+}
+
 Future runPerfTest(_) {
   const callCount = 1e6;
 

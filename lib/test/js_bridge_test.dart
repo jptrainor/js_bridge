@@ -13,7 +13,7 @@ import 'package:unittest/unittest.dart';
 
 part 'js_data_mapping_test.dart';
 
-Future insertJsScript(String src) {
+Future _insertJsScript(String src) {
   var script = new html.ScriptElement();
   script.type = "text/javascript";
   script.src = src;
@@ -29,23 +29,23 @@ Future insertJsScript(String src) {
 }
 
 
-bool loaded = false;
-loadJs() {
-  if (loaded) {
+bool _loaded = false;
+_loadJs() {
+  if (_loaded) {
     return new Future.value();
   }
 
-  loaded = true;
+  _loaded = true;
   var scriptSrc = "packages/js_bridge/js_bridge.js";
   var scriptTest = "packages/js_bridge/test/js_bridge_test.js";
-  return insertJsScript(scriptSrc).then((_) => insertJsScript(scriptTest));
+  return _insertJsScript(scriptSrc).then((_) => _insertJsScript(scriptTest));
 }
 
-class JsTestTarget {
+class _JsTestTarget {
 
   bool _forceError;
 
-  JsTestTarget(this._forceError);
+  _JsTestTarget(this._forceError);
 
   var lastArg1_1;
 
@@ -120,11 +120,11 @@ class JsTestTarget {
 
 }
 
-bridge_test() {
+_bridge_test() {
 
   // create the bridge and register a target calls
   var jsBridge = new jsb.JsBridge("bridge_test");
-  var jsTestTarget = new JsTestTarget(false);
+  var jsTestTarget = new _JsTestTarget(false);
 
   var testTargetName1 = "testTarget1";
   var testTargetName2 = "testTarget2";
@@ -178,11 +178,11 @@ bridge_test() {
   expect(jsBridge.isRegisteredHandler(testTargetName3), isFalse);
 }
 
-bridge_callback_test() {
+_bridge_callback_test() {
 
   // create the bridge and register a target calls
   var jsBridge = new jsb.JsBridge("bridge_calback_test");
-  var jsTestTarget = new JsTestTarget(false);
+  var jsTestTarget = new _JsTestTarget(false);
 
   var testTargetName5 = "testTarget5";
   var testTargetName6 = "testTarget6";
@@ -200,14 +200,14 @@ bridge_callback_test() {
   expect(arg2, equals(js.context['bridge_callback_test_result_2_2']));
 }
 
-bridge_error_test() {
+_bridge_error_test() {
 
   var errors = new Set();
 
   errorHandler(e) => errors.add(e);
 
   var jsBridge = new jsb.JsBridge("bridge_error_test", errorHandler);
-  var jsTestTarget = new JsTestTarget(true);
+  var jsTestTarget = new _JsTestTarget(true);
 
   var testTargetName1 = "testTarget1";
   var testTargetName2 = "testTarget2";
@@ -254,16 +254,29 @@ bridge_error_test() {
   return jsTestTarget.testTarget4AsyncError.then(verifyTarget4);
 }
 
+/**
+ * Expose js_bridge tests for execution from arbitrary entry points.
+ *
+ * Call this from whereever your test entry point happens to be. For example,
+ * the js_bridge package includes a test entry point that simple
+ * executes the js_bridge tests that are setup by this call.
+ * Testing is performed this way because js_bridge package is used as part of large
+ * system where many packages are tested from a single, top-level, entry point. Placing
+ * the tests in the lib directory in this way makes them available from multiple entry
+ * points. No test code will make its way into a client application unless that
+ * application imports the js_bridge_test library and, even then, unless they call
+ * setupTests() (because of tree shaking).
+ */
 setupTests() {
-  setUp(loadJs);
+  setUp(_loadJs);
 
-  test("js to dart mapping", jsDataMappingTest);
+  test("js to dart mapping", _jsDataMappingTest);
 
-  test("dart to js mapping", dartDataMappingTest);
+  test("dart to js mapping", _dartDataMappingTest);
 
-  test("javascript bridge", bridge_test);
+  test("javascript bridge", _bridge_test);
 
-  test("javascript bridge callback", bridge_callback_test);
+  test("javascript bridge callback", _bridge_callback_test);
 
-  test("javascript bridge zone error", bridge_error_test);
+  test("javascript bridge zone error", _bridge_error_test);
 }
