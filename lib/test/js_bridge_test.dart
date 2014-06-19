@@ -30,17 +30,15 @@ Future insertJsScript(String src) {
 
 
 bool loaded = false;
-makeLoadJs(String scriptPath) {
-  return () {
-    if (loaded) {
-      return new Future.value();
-    }
+loadJs() {
+  if (loaded) {
+    return new Future.value();
+  }
 
-    loaded = true;
-    var scriptSrc = "packages/js_bridge/js_bridge.js";
-    var scriptTest = "${scriptPath}/js_bridge_test.js";
-    return insertJsScript(scriptSrc).then((_) => insertJsScript(scriptTest));
-  };
+  loaded = true;
+  var scriptSrc = "packages/js_bridge/js_bridge.js";
+  var scriptTest = "packages/js_bridge/test/js_bridge_test.js";
+  return insertJsScript(scriptSrc).then((_) => insertJsScript(scriptTest));
 }
 
 class JsTestTarget {
@@ -256,8 +254,8 @@ bridge_error_test() {
   return jsTestTarget.testTarget4AsyncError.then(verifyTarget4);
 }
 
-setupTests([String testDirPath = "."]) {
-  setUp(makeLoadJs(testDirPath));
+setupTests() {
+  setUp(loadJs);
 
   test("js to dart mapping", jsDataMappingTest);
 
