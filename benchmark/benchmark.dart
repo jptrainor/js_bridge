@@ -3,10 +3,16 @@
 
 library js_bridge_test_main;
 
-import 'tests/js_bridge_test.dart' as jsb_test;
+import 'dart:async';
+import 'dart:js' as js;
+import 'dart:html' as html;
+
+import 'package:unittest/unittest.dart';
 import 'package:unittest/html_config.dart';
+
+part 'perf_test.dart';
 
 main() {
   useHtmlConfiguration();
-  jsb_test.setupTests();
+  setupPerfTest();
 }
