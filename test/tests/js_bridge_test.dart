@@ -30,15 +30,17 @@ Future _insertJsScript(String src) {
 
 
 bool _loaded = false;
-_loadJs() {
-  if (_loaded) {
-    return new Future.value();
-  }
+_loadJs(String jsTestPath) {
+  return () {
+    if (_loaded) {
+      return new Future.value();
+    }
 
-  _loaded = true;
-  var scriptSrc = "packages/js_bridge/js_bridge.js";
-  var scriptTest = "packages/js_bridge/test/js_bridge_test.js";
-  return _insertJsScript(scriptSrc).then((_) => _insertJsScript(scriptTest));
+    _loaded = true;
+    var scriptSrc = "packages/js_bridge/js_bridge.js";
+    var scriptTest = "$jsTestPath/tests/js_bridge_test.js";
+    return _insertJsScript(scriptSrc).then((_) => _insertJsScript(scriptTest));
+  };
 }
 
 class _JsTestTarget {
@@ -257,18 +259,14 @@ _bridge_error_test() {
 /**
  * Expose js_bridge tests for execution from arbitrary entry points.
  *
- * Call this from whereever your test entry point happens to be. For example,
+ * Call this from wherever your test entry point happens to be. For example,
  * the js_bridge package includes a test entry point that simple
  * executes the js_bridge tests that are setup by this call.
- * Testing is performed this way because js_bridge package is used as part of large
- * system where many packages are tested from a single, top-level, entry point. Placing
- * the tests in the lib directory in this way makes them available from multiple entry
- * points. No test code will make its way into a client application unless that
- * application imports the js_bridge_test library and, even then, unless they call
- * setupTests() (because of tree shaking).
+ * Testing is performed this way because js_bridge package is used as part of larger
+ * system where many packages are tested from a single, top-level, entry point.
  */
-setupTests() {
-  setUp(_loadJs);
+setupTests([String jsPath = "."]) {
+  setUp(_loadJs(jsPath));
 
   test("js to dart mapping", _jsDataMappingTest);
 

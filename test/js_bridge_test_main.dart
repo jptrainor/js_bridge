@@ -7,7 +7,7 @@ import 'dart:async';
 import 'dart:js' as js;
 import 'dart:html' as html;
 
-import 'package:js_bridge/test/js_bridge_test.dart' as jsb_test;
+import 'tests/js_bridge_test.dart' as jsb_test;
 
 import 'package:unittest/unittest.dart';
 import 'package:unittest/html_config.dart';
