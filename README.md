@@ -12,19 +12,25 @@ Note that the execution of the Dart and Javascript initialization code are not s
 
 ## Performance
 
-There is a performance test included with the js_bridge unit tests. It measures the time required to complete a single function call with a single integer argument and a single integer return value. The call performance is measured both from Dart to Javascript, and from Javascript to Dart. A single function call in either direction is about 2 µs. Consider this a baseline performance expectation.
+The js_bridge package includes a performance benchmark. It measures the time required to complete a single function call with a single integer argument and a single integer return value using both bare dart:js and js_bridge.
 
-Below are the performance test results running on a 2.8 GHz i5 with OSX 10.9.3, Dart 1.4.2, and Chrome 35.0.1916.114.
+The dart:js benchmark measures the time required to call from both from Dart to Javascript, and from Javascript to Dart. A single function call in either direction completes in under 2 µs.
+
+The js_bridge benchmark measures the time required to complete a single bridged function call with a single integer argument and a single integer return value. A single bridged Javascript to Dart call completes in under 3 µs.
+
+Below are the benchmark test results running on a 2.8 GHz i5 with OSX 10.9.3, Dart 1.4.3, and Chrome 35.0.1916.114.
 
 Dartium (Dart VM):
 
-    javascript call to dart = 1414 ns/call
-    dart call to javascript = 2238 ns/call
+    bare javascript call to dart = 1345 ns call
+    bare dart call to javascript = 2103 ns/call
+    js_bridge javascript call to dart = 2654 ns/call
 
 Chrome (dart2js):
 
-    javascript call to dart = 2303 ns/call
-    dart call to javascript = 1442 ns/call
+    bare javascript call to dart = 1929 ns/call
+    bare dart call to javascript = 1278 ns/call
+    js_bridge javascript call to dart = 2909 ns/call
 
 ## Does it really work? Is it actually useful?
 

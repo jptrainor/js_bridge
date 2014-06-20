@@ -3,22 +3,7 @@
 
 part of benchmark;
 
-Future insertJsScript(String src) {
-  var script = new html.ScriptElement();
-  script.type = "text/javascript";
-  script.src = src;
-
-  var loadCompleter = new Completer();
-  script.onLoad.listen((html.Event event) {
-    loadCompleter.complete();
-  });
-
-  html.document.body.nodes.add(script);
-
-  return loadCompleter.future;
-}
-
-Future runPerfTest(_) {
+Future _runBarePerfTest() {
   const callCount = 1e6;
 
   dynamic recv(/*ReplyHandler replyHandler,*/ dynamic msg) {
@@ -34,7 +19,13 @@ Future runPerfTest(_) {
   }
   ;
 
-  js.JsObject perfTest = new js.JsObject(js.context['JsBridgePerfTest'], [recv, callCount, jsToDartCompletionCallback]);
+  bridgeCompletionCallback(elapsedMilliSeconds) {
+    var usPerCall = (1.0e6 * elapsedMilliSeconds) ~/ callCount;
+    print("js_bridge messaging performance, javascript call to dart = $usPerCall ns/call");
+  }
+  ;
+
+  js.JsObject perfTest = new js.JsObject(js.context['JsBridgePerfTest'], [recv, callCount, jsToDartCompletionCallback, bridgeCompletionCallback]);
 
   perfTest.callMethod('runJs2Dart');
 
@@ -56,12 +47,20 @@ Future runPerfTest(_) {
   }
   ;
 
-  return jsToDartCompleter.future.then(dartToJsPerfTest);
+  int dartBenchmarkFunc(int arg) {
+    return arg;
+  }
+  ;
+
+  void bridgePerfTest(_) {
+    var bridge = new jsb.JsBridge("benchmark");
+    bridge.registerHandler1("dartBenchmarkFunc", dartBenchmarkFunc);
+    perfTest.callMethod('runJsBridge2Dart');
+  }
+
+  return jsToDartCompleter.future.then(dartToJsPerfTest).then(bridgePerfTest);
 }
 
-setupPerfTest([String testDirPath = "."]) {
-  test("js_bridge perf", () {
-    var scriptSrc = "${testDirPath}/perf_test.js";
-    return insertJsScript(scriptSrc).then(runPerfTest);
-  });
+setupPerfTest() {
+  test("js_bridge perf", _runBarePerfTest);
 }
