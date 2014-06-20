@@ -62,5 +62,5 @@ main() {
   js.context.callMethod('onDartReady');
 
   // Note: there is no need to worry about the bridge disappearing and the
-  // javascript calls failing after main() exists.
+  // javascript calls failing after main() exits.
 }
