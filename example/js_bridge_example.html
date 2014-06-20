@@ -20,13 +20,15 @@
     <script type="application/javascript">
   
       /*
-       * Do not call your dart code until you know that main has executed.
+       * Do not call your dart code until you know that main() has executed.
        * In this case we synchronize with the execution of dart:main() using
-       * this simple onDartReady() that is executed from dart:main().
+       * this simple onDartReady() function that is executed from dart:main().
        *
        * It is useful to understand some of details of how dart is
-       * embedded in an html page in order to understand exactly when you
-       * dart code is ready to call. See: https://www.dartlang.org/articles/embedding-in-html/
+       * embedded in an html page in order to understand exactly when your
+       * dart code is ready to call.
+       *
+       * See: https://www.dartlang.org/articles/embedding-in-html/
        */
        
       function onDartReady() {
