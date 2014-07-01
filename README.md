@@ -14,9 +14,9 @@ Note that the execution of the Dart and Javascript initialization code are not s
 
 The js_bridge package includes a performance benchmark. It measures the time required to complete a single function call with a single integer argument and a single integer return value using both bare dart:js and js_bridge.
 
-The dart:js benchmark measures the time required to call from both from Dart to Javascript, and from Javascript to Dart. A single function call in either direction completes in under 2 µs.
+The dart:js benchmark measures the time required to call from both from Dart to Javascript, and from Javascript to Dart. A single function call in either direction completes in about 2 µs.
 
-The js_bridge benchmark measures the time required to complete a single bridged function call with a single integer argument and a single integer return value. A single bridged Javascript to Dart call completes in under 3 µs.
+The js_bridge benchmark measures the time required to complete a single bridged function call with a single integer argument and a single integer return value. A single bridged Javascript to Dart call completes in about 3 µs.
 
 Below are the benchmark test results running on a 2.8 GHz i5 with OSX 10.9.3, Dart 1.4.3, and Chrome 35.0.1916.114.
 
