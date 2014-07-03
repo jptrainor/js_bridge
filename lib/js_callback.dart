@@ -24,7 +24,7 @@ class JsCallback {
   void call(var args) {
     var jsArgs = [];
 
-    if (args is List) {
+    if (args is Iterable) {
       for (var arg in args) {
         jsArgs.add(dart2js(arg));
       }
