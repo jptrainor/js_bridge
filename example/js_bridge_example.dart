@@ -43,7 +43,7 @@ myFuncE() {
 
 // This is the error handler for the example bridge.
 onJsBridgeError(msg) {
-  print("An error occurred executing a bridged function: $msg");
+  print("An error occurred executing a bridged function: \"$msg\"");
 }
 
 main() {
@@ -58,9 +58,9 @@ main() {
   exampleBridge.registerHandler3("myFuncD", myObject.myFuncD);
   exampleBridge.registerHandler0("myFuncE", myFuncE);
 
-  // We need to let the Javasript code know that the Dart code is ready.
-  js.context.callMethod('onDartReady');
-
+  // Notify javascript listeners that the bridge is ready for use.
+  exampleBridge.notifyReady();
+  
   // Note: there is no need to worry about the bridge disappearing and the
   // javascript calls failing after main() exits.
 }

@@ -1,35 +1,28 @@
 <!DOCTYPE html>
 
 <html>
-  <head>
-  	<meta charset="utf-8">
-  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>js_bridge_example</title>
-  </head>
- 
-  <body>   
-    <!-- your dart application -->
-    <script type="application/dart" src="js_bridge_example.dart"></script>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>js_bridge_example</title>
+</head>
 
-    <!-- for this next line to work, your pubspec.yaml file must have a dependency on 'js_bridge' -->
-    <script type="application/javascript" src="packages/js_bridge/js_bridge.js"></script>
+<body>
+	<!-- your dart application -->
+	<script type="application/dart" src="js_bridge_example.dart"></script>
 
-    <!-- for this next line to work, your pubspec.yaml file must have a dependency on 'browser' -->
-    <script type="application/javascript" src="packages/browser/dart.js"></script>
+	<!-- for this next line to work, your pubspec.yaml file must have a dependency on 'js_bridge' -->
+	<script type="application/javascript"
+		src="packages/js_bridge/js_bridge.js"></script>
 
-    <script type="application/javascript">
-  
-      /*
-       * Do not call your dart code until you know that dart::main() has executed.
-       * In this case we synchronize with the execution of dart:main() using
-       * this simple onDartReady() function that is executed from dart:main().
-       *
-       * To understand the issues surrounding how dart is embedded in
-       * an html page see: https://www.dartlang.org/articles/embedding-in-html/
-       */
-       
-      function onDartReady() {
-        var example = JS_BRIDGE.lookupNamespace("example");
+	<!-- for this next line to work, your pubspec.yaml file must have a dependency on 'browser' -->
+	<script type="application/javascript" src="packages/browser/dart.js"></script>
+
+	<script type="application/javascript">
+
+      // The bridge ready callback argument is the namespace instance. This is the same
+      // object that ias returned by JS_BRIDGE.lookupNamespace("example").
+      function onDartBridgeReady(example) {
         var result;
 
         // Simplest example with scalar arguments.
@@ -45,15 +38,20 @@
         document.body.innerHTML += "myFuncC result: " + result.toString() + "<br>";
 
         // A callback example.
-       example.myFuncD(1, "two", function (a, b) {
+        example.myFuncD(1, "two", function (a, b) {
           document.body.innerHTML += "myFuncD result: " + [a, b].toString() + "<br>";        
-       });
+        });
         
-       // An error example. The dart function throws an exception that is handled by
-       // the zoned error handler. The exception is *not* propogated to Javascript.
-       example.myFuncE();
-    }
-    </script>
+        // An error example. The dart function throws an exception that is handled by
+        // the zoned error handler. The exception is *not* propogated to Javascript.
+        // Look for the zone error message in the browser console. The message is:
+        // An error occurred executing a bridged function: "something really bad happened"
+        example.myFuncE();
+      }
 
-  </body>
+      // Ready listener that will be called when the Dart side calls notifyReady() on the bridge.
+      JS_BRIDGE.addReadyListener("example", onDartBridgeReady);
+	</script>
+
+</body>
 </html>

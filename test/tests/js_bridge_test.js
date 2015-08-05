@@ -64,3 +64,21 @@ function jsBridgeErrorTest() {
     // and, finally, the async error case
     bridge_error_test_result_4 = bridge_error_test.testTarget4();
 }
+
+
+var bridge_ready_listener_test_namespace_name_notified_pre = "no-result";
+var bridge_ready_listener_test_namespace_name_notified_post = "no-result";
+
+function jsBridgeAddReadyListenerPre(namespaceName) {
+	"use strict";
+	JS_BRIDGE.addReadyListener( namespaceName, function(namespace) {
+		bridge_ready_listener_test_namespace_name_notified_pre = namespace.namespaceName;
+	});
+}
+
+function jsBridgeAddReadyListenerPost(namespaceName) {
+	"use strict";
+	JS_BRIDGE.addReadyListener( namespaceName, function(namespace) {
+		bridge_ready_listener_test_namespace_name_notified_post = namespace.namespaceName;
+	});
+}

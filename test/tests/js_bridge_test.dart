@@ -28,7 +28,6 @@ Future _insertJsScript(String src) {
   return loadCompleter.future;
 }
 
-
 bool _loaded = false;
 _loadJs(String jsTestPath) {
   return () {
@@ -44,7 +43,6 @@ _loadJs(String jsTestPath) {
 }
 
 class _JsTestTarget {
-
   bool _forceError;
 
   _JsTestTarget(this._forceError);
@@ -88,7 +86,6 @@ class _JsTestTarget {
     return [arg1, arg2, arg3];
   }
 
-
   Future<bool> testTarget4AsyncError;
 
   /**
@@ -97,7 +94,6 @@ class _JsTestTarget {
    * from the javascript call.
    */
   dynamic testTarget4() {
-
     var completer = new Completer<bool>();
 
     testTarget4AsyncError = completer.future;
@@ -119,7 +115,6 @@ class _JsTestTarget {
   dynamic testTarget6(String arg1, num arg2, jsb.JsCallback callback) {
     return callback([arg1, arg2]);
   }
-
 }
 
 _bridge_test() {
@@ -149,9 +144,7 @@ _bridge_test() {
 
   // execute the java script call which will call back with known arguments
   js.context.callMethod("jsBridgeTest");
-  var expectedArg1_1 = [1, "2", 3.3, ["a", "b"], {
-      "c": "d"
-    }];
+  var expectedArg1_1 = [1, "2", 3.3, ["a", "b"], {"c": "d"}];
   var expectedArg2_1 = [1, "2", 3.3, ["a", "b"]];
   var expectedArg2_2 = [1, "2", 3.3];
 
@@ -159,9 +152,12 @@ _bridge_test() {
 
   // verify the results that were passed back to java by the test targers (this indirectly
   // validates the arguments that were passed from javascript to dart correctly).
-  expect(expectedArg1_1.toString(), jsb.js2dart(js.context['bridge_test_result_1']).toString());
-  expect([expectedArg2_1, expectedArg2_2].toString(), jsb.js2dart(js.context['bridge_test_result_2']).toString());
-  expect([1, '2', 3.3].toString(), jsb.js2dart(js.context['bridge_test_result_3']).toString());
+  expect(expectedArg1_1.toString(),
+      jsb.js2dart(js.context['bridge_test_result_1']).toString());
+  expect([expectedArg2_1, expectedArg2_2].toString(),
+      jsb.js2dart(js.context['bridge_test_result_2']).toString());
+  expect([1, '2', 3.3].toString(),
+      jsb.js2dart(js.context['bridge_test_result_3']).toString());
 
   // verify deregister call
   jsBridge.deregisterHandler(testTargetName1);
@@ -202,8 +198,37 @@ _bridge_callback_test() {
   expect(arg2, equals(js.context['bridge_callback_test_result_2_2']));
 }
 
-_bridge_error_test() {
+_bridge_registration_listener_test() {
 
+  // The ready listener should work regardless of the order of the call to
+  // register the listener realitive the creating and ready notification of the
+  // the bridge. Both sequences are tested.
+  
+  // First, test notification of listener added before the bridge is
+  // created and ready notified.
+  {
+    var name = "bridge_registration_calback_test_pre";
+    js.context.callMethod('jsBridgeAddReadyListenerPre', [name]);
+    var jsBridge = new jsb.JsBridge(name);
+    jsBridge.notifyReady();
+    expect(js.context['bridge_ready_listener_test_namespace_name_notified_pre'],
+        equals(name));
+  }
+
+  // Second, test notification of listener added after the bride is created
+  // and ready notified.
+  {
+    var name = "bridge_registration_calback_test_post";
+    var jsBridge = new jsb.JsBridge(name);
+    jsBridge.notifyReady();
+    js.context.callMethod('jsBridgeAddReadyListenerPost', [name]);
+    expect(
+        js.context['bridge_ready_listener_test_namespace_name_notified_post'],
+        equals(name));
+  }
+}
+
+_bridge_error_test() {
   var errors = new Set();
 
   errorHandler(e) => errors.add(e);
@@ -277,4 +302,7 @@ setupTests([String jsPath = "."]) {
   test("javascript bridge callback", _bridge_callback_test);
 
   test("javascript bridge zone error", _bridge_error_test);
+
+  test("javascript bridge registration listener",
+      _bridge_registration_listener_test);
 }

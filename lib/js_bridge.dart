@@ -49,6 +49,14 @@ class JsBridge {
     js.context['JS_BRIDGE'].callMethod('registerNamespace', [_jsContext]);
   }
 
+  /**
+   * Notify listeners that the bridge is ready. Note that listeners are registered
+   * by the javascript code using the JS_BRIDGE.addRegistrationListener function.
+   * Ready listeners added after this notifyReady() call are notifed at the moment
+   * they are added.
+   */
+  void notifyReady() => _jsContext.callMethod('notifyReady');
+  
   dynamic _zoned(body()) {
     return runZoned(body, onError: _onZoneError);
   }
