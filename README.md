@@ -6,7 +6,7 @@ Dart provides good integration between Javascript and Dart if your goal is to or
 
 There is a simple example that shows how to get started.
 
-You need to create a JsBridge object in your dart code and use that bridge object to register functions that you want exposed to your Javascript code. The dart code is responsible for calling JsBridge.notifyReady() after the bridge is initialized and ready to be called by your Javascript code. On the Javascript side you need to include js_bridge.js and then or add a ready notification listener to get the namespace object that was created by the Dart side JsBridge instance. With that namespace object you can then call your registered functions by name using ordinary javascript dot notation.
+You need to create a JsBridge object in your Dart code and use that bridge object to register functions that you want exposed to your Javascript code. The dart code is responsible for calling JsBridge.notifyReady() after the bridge is initialized and ready to be called by your Javascript code. On the Javascript side you need to include js_bridge.js and then or add a ready notification listener to get the namespace object that was created by the Dart side JsBridge instance. With that namespace object you can then call your registered functions by name using ordinary javascript dot notation.
 
 ## Performance
 
