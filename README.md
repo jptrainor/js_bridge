@@ -32,7 +32,7 @@ Chrome (dart2js):
 
 ## Does it really work? Is it actually useful?
 
-Yes. It is used in a real life project to put an ExtJS interface on top of a layer of Dart code that is responsible for all server communication, resource caching, etc. It works fine in this application.
+Yes. It is used in a real life project to put an Polymer/Javascript interface on top of a layer of Dart code that is responsible for all server communication, resource caching, etc. It works fine in this application.
 
 
 
