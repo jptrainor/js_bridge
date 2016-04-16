@@ -27,7 +27,7 @@ _d(var arg) => dart2js(arg);
  * Registration class for dart functions that are accessible from javascript. A JsBridge
  * instance is a namespace for a collection of registered dart functions. All incoming
  * (from javascript) arguments are mapped to dart values. Primitive types (string, int,
- * double), arrays, and maps (javascript objects) map by passed as arguments. The return
+ * double), arrays, and maps (javascript objects) are supported as arguments. The return
  * value is mapped to a javascript primitive, array, or map. All calls registered with
  * a single [JsBridge] instance are executed in a shared error zone.
  */
