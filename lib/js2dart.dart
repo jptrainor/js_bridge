@@ -20,7 +20,7 @@ Map<String, Object> js2map(js.JsObject object) {
 }
 
 /**
- * Deep conversion a js.JsArray to a dart List<Object>.
+ * Deep conversion of a js.JsArray to a dart List<Object>.
  */
 List<Object> js2list(js.JsArray array) {
   if (array == null) {
