@@ -287,8 +287,11 @@ _bridge_error_test() {
  * Call this from wherever your test entry point happens to be. For example,
  * the js_bridge package includes a test entry point that simple
  * executes the js_bridge tests that are setup by this call.
- * Testing is performed this way because js_bridge package is used as part of larger
- * system where many packages are tested from a single, top-level, entry point.
+ * 
+ * Testing is performed in this way because the js_bridge package was
+ * originally created for, and is still used by, a larger system where
+ * many packages are tested from a single, top-level, test integration
+ * point.
  */
 setupTests([String jsPath = "."]) {
   setUp(_loadJs(jsPath));
